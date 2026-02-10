@@ -1,0 +1,167 @@
+@theme {
+  /* Font Family - Clinical Premium Aesthetic */
+  --font-sans:
+    -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+  --font-display:
+    -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+  
+  /* Brand Colors - Vibrant Blue Clinical Palette */
+  --color-primary-50: #f0f2ff;
+  --color-primary-100: #e0e5ff;
+  --color-primary-200: #c7cfff;
+  --color-primary-300: #a4afff;
+  --color-primary-400: #8189ff;
+  --color-primary-500: #6570ff;
+  --color-primary-600: #4757ff;
+  --color-primary-700: #3244ff;
+  --color-primary-800: #1f2ab8;
+  --color-primary-900: #141c7a;
+  
+  --color-frost-50: #f8fafb;
+  --color-frost-100: #f1f5f7;
+  --color-frost-200: #e4ebf0;
+  --color-frost-300: #d1dce5;
+  --color-frost-400: #b8c9d6;
+  --color-frost-500: #9ab3c5;
+  --color-frost-600: #7a99af;
+  --color-frost-700: #5f7d93;
+  --color-frost-800: #4a6077;
+  --color-frost-900: #37475a;
+  
+  --color-slate-50: #f7f8fa;
+  --color-slate-100: #eef0f3;
+  --color-slate-200: #dde1e6;
+  --color-slate-300: #c5ccd5;
+  --color-slate-400: #a7b2bf;
+  --color-slate-500: #8895a7;
+  --color-slate-600: #6b7a8f;
+  --color-slate-700: #546173;
+  --color-slate-800: #3f4a57;
+  --color-slate-900: #2a3340;
+  
+  --color-sky-50: #f5f8fb;
+  --color-sky-100: #e8f1f8;
+  --color-sky-200: #d4e4f1;
+  --color-sky-300: #b6d3e8;
+  --color-sky-400: #91bedd;
+  --color-sky-500: #6fa7d1;
+  --color-sky-600: #4e8dc2;
+  --color-sky-700: #3c71a0;
+  --color-sky-800: #2e567a;
+  --color-sky-900: #213d56;
+
+  /* Animation */
+  --animation-ring: ring 2.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+  --animation-fade-in-right: fade-in-right 0.3s cubic-bezier(0.5, 0, 0.5, 1)
+    forwards;
+  --animation-fade-in-top: fade-in-top 0.2s cubic-bezier(0.5, 0, 0.5, 1)
+    forwards;
+  --animation-fade-out-top: fade-out-top 0.2s cubic-bezier(0.5, 0, 0.5, 1)
+    forwards;
+  --animation-accordion-open: accordion-slide-down 300ms
+    cubic-bezier(0.87, 0, 0.13, 1) forwards;
+  --animation-accordion-close: accordion-slide-up 300ms
+    cubic-bezier(0.87, 0, 0.13, 1) forwards;
+  --animation-enter: enter 200ms ease-out;
+  --animation-slide-in: slide-in 1.2s cubic-bezier(0.41, 0.73, 0.51, 1.02);
+  --animation-leave: leave 150ms ease-in forwards;
+
+  /* Keyframes definitions */
+  @keyframes ring {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+
+  @keyframes fade-in-right {
+    0% {
+      opacity: 0;
+      transform: translateX(10px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
+  @keyframes fade-in-top {
+    0% {
+      opacity: 0;
+      transform: translateY(-10px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes fade-out-top {
+    0% {
+      height: 100%;
+    }
+    99% {
+      height: 0;
+    }
+    100% {
+      visibility: hidden;
+    }
+  }
+
+  @keyframes accordion-slide-up {
+    0% {
+      height: var(--radix-accordion-content-height);
+      opacity: 1;
+    }
+    100% {
+      height: 0;
+      opacity: 0;
+    }
+  }
+
+  @keyframes accordion-slide-down {
+    0% {
+      min-height: 0;
+      max-height: 0;
+      opacity: 0;
+    }
+    100% {
+      min-height: var(--radix-accordion-content-height);
+      max-height: none;
+      opacity: 1;
+    }
+  }
+
+  @keyframes enter {
+    0% {
+      transform: scale(0.9);
+      opacity: 0;
+    }
+    100% {
+      transform: scale(1);
+      opacity: 1;
+    }
+  }
+
+  @keyframes leave {
+    0% {
+      transform: scale(1);
+      opacity: 1;
+    }
+    100% {
+      transform: scale(0.9);
+      opacity: 0;
+    }
+  }
+
+  @keyframes slide-in {
+    0% {
+      transform: translateY(-100%);
+    }
+    100% {
+      transform: translateY(0);
+    }
+  }
+}

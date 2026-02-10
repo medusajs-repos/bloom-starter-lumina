@@ -1,0 +1,106 @@
+@import "tailwindcss";
+@config "../../tailwind.config.js";
+@import "./theme.css";
+
+@layer base {
+  :root {
+    @apply bg-white text-black antialiased;
+    text-rendering: optimizeLegibility;
+    letter-spacing: -0.01em;
+  }
+  
+  body {
+    font-family: var(--font-sans);
+    font-size: 15px;
+    line-height: 1.6;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-display);
+    letter-spacing: -0.02em;
+    font-weight: 600;
+    color: #000000;
+  }
+}
+
+@layer components {
+  /* Content container */
+  .content-container {
+    @apply max-w-[1440px] w-full mx-auto px-12 md:px-24 lg:px-32 xl:px-40;
+  }
+}
+
+@layer utilities {
+  /* Chrome, Safari and Opera */
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  .no-scrollbar::-webkit-scrollbar-track {
+    background-color: transparent;
+  }
+
+  .no-scrollbar {
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+  }
+
+  input:not([type="checkbox"]):focus ~ label,
+  input:not([type="checkbox"]):not(:placeholder-shown) ~ label {
+    @apply -translate-y-2 text-xs font-medium;
+  }
+
+  input:not([type="checkbox"]):focus ~ label {
+    @apply left-0;
+  }
+
+  /* input:not([type="checkbox"]):-webkit-autofill,
+  input:not([type="checkbox"]):-webkit-autofill:hover,
+  input:not([type="checkbox"]):-webkit-autofill:focus,
+  textarea:-webkit-autofill,
+  textarea:-webkit-autofill:hover,
+  textarea:-webkit-autofill:focus,
+  select:-webkit-autofill,
+  select:-webkit-autofill:hover,
+  select:-webkit-autofill:focus {
+    border: 1px solid #212121;
+    -webkit-text-fill-color: #212121;
+    -webkit-box-shadow: 0 0 0px 1000px #fff inset;
+    transition: background-color 5000s ease-in-out 0s;
+  } */
+}
+
+/* Navigation menu dropdown animations */
+@keyframes dropdown-open {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) translateY(-1rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+}
+
+@keyframes dropdown-close {
+  from {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateX(-50%) translateY(-1rem);
+  }
+}
+
+/* Scroll fade-in animations */
+.fade-in-section {
+  opacity: 0;
+  transform: translateY(50px);
+  transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+
+.fade-in-section.animate-in {
+  opacity: 1;
+  transform: translateY(0);
+}
