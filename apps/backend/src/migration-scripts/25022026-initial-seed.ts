@@ -382,7 +382,7 @@ export default async function migration_25022026_initial_seed({
             status: "published" as const,
             is_giftcard: false,
             discountable: true,
-            category_ids: [getCategoryId("moisturizers")],
+            category_ids: [getCategoryId("moisturizers")].filter((id): id is string => !!id),
             thumbnail: "https://cdn.mignite.app/ws/works_01KGQ5H8GE886HVXP786G1873G/image-01KGS5C3SYG7TE5TADGHG73MBK.png",
             images: [
                 { url: "https://cdn.mignite.app/ws/works_01KGQ5H8GE886HVXP786G1873G/image-01KGS5C3SYG7TE5TADGHG73MBK.png" },
@@ -414,7 +414,7 @@ export default async function migration_25022026_initial_seed({
             status: "published" as const,
             is_giftcard: false,
             discountable: true,
-            category_ids: [getCategoryId("moisturizers")],
+            category_ids: [getCategoryId("moisturizers")].filter((id): id is string => !!id),
             thumbnail: "https://cdn.mignite.app/ws/works_01KGQ5H8GE886HVXP786G1873G/image-01KGS5N6XS7SWQHD4PP2VXJJYB.png",
             images: [
                 { url: "https://cdn.mignite.app/ws/works_01KGQ5H8GE886HVXP786G1873G/image-01KGS5N6XS7SWQHD4PP2VXJJYB.png" },
@@ -446,7 +446,7 @@ export default async function migration_25022026_initial_seed({
             status: "published" as const,
             is_giftcard: false,
             discountable: true,
-            category_ids: [getCategoryId("moisturizers")],
+            category_ids: [getCategoryId("moisturizers")].filter((id): id is string => !!id),
             thumbnail: "https://cdn.mignite.app/ws/works_01KGQ5H8GE886HVXP786G1873G/Lumina_3-01KGS6PGXWVS4225024G5BVJQ0.jpeg",
             images: [
                 { url: "https://cdn.mignite.app/ws/works_01KGQ5H8GE886HVXP786G1873G/Lumina_3-01KGS6PGXWVS4225024G5BVJQ0.jpeg" },
@@ -478,7 +478,7 @@ export default async function migration_25022026_initial_seed({
             status: "published" as const,
             is_giftcard: false,
             discountable: true,
-            category_ids: [getCategoryId("serums")],
+            category_ids: [getCategoryId("serums")].filter((id): id is string => !!id),
             thumbnail: "https://cdn.mignite.app/ws/works_01KGQ5H8GE886HVXP786G1873G/Skincare-nano_banana_pro_20260209_151810_1--01KH3C5JKAJY9YN6W5Z8YF3ADH.jpeg",
             images: [
                 { url: "https://cdn.mignite.app/ws/works_01KGQ5H8GE886HVXP786G1873G/Skincare-nano_banana_pro_20260209_151810_1--01KH3C5JKAJY9YN6W5Z8YF3ADH.jpeg" },
@@ -507,7 +507,7 @@ export default async function migration_25022026_initial_seed({
             status: "published" as const,
             is_giftcard: false,
             discountable: true,
-            category_ids: [getCategoryId("serums")],
+            category_ids: [getCategoryId("serums")].filter((id): id is string => !!id),
             thumbnail: "https://cdn.mignite.app/ws/works_01KGQ5H8GE886HVXP786G1873G/Skincare-nano_banana_pro_20260209_152843_1--01KH3C7TF3X5VEMW4CY4EJHBWS.jpeg",
             images: [
                 { url: "https://cdn.mignite.app/ws/works_01KGQ5H8GE886HVXP786G1873G/Skincare-nano_banana_pro_20260209_152843_1--01KH3C7TF3X5VEMW4CY4EJHBWS.jpeg" },
@@ -536,7 +536,7 @@ export default async function migration_25022026_initial_seed({
             status: "published" as const,
             is_giftcard: false,
             discountable: true,
-            category_ids: [getCategoryId("serums")],
+            category_ids: [getCategoryId("serums")].filter((id): id is string => !!id),
             thumbnail: "https://cdn.mignite.app/ws/works_01KGQ5H8GE886HVXP786G1873G/Skincare-nano_banana_pro_20260209_152847_3--01KH3C679GEGYEC6ZENWGDXYWA.jpeg",
             images: [
                 { url: "https://cdn.mignite.app/ws/works_01KGQ5H8GE886HVXP786G1873G/Skincare-nano_banana_pro_20260209_152847_3--01KH3C679GEGYEC6ZENWGDXYWA.jpeg" },
