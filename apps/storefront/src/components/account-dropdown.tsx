@@ -35,7 +35,7 @@ export const AccountDropdown = () => {
                 <NavigationMenu.Link asChild>
                   <Link
                     to="/$countryCode/account"
-                    params={{ countryCode }}
+                    params={{ countryCode: countryCode || "" }}
                     className="px-6 py-3 text-neutral-700 hover:text-neutral-900 hover:bg-neutral-50 text-sm transition-colors"
                   >
                     My Account
@@ -44,7 +44,7 @@ export const AccountDropdown = () => {
                 <NavigationMenu.Link asChild>
                   <Link
                     to="/$countryCode/account/orders"
-                    params={{ countryCode }}
+                    params={{ countryCode: countryCode || "" }}
                     className="px-6 py-3 text-neutral-700 hover:text-neutral-900 hover:bg-neutral-50 text-sm transition-colors"
                   >
                     My Orders
@@ -62,7 +62,7 @@ export const AccountDropdown = () => {
                 <NavigationMenu.Link asChild>
                   <Link
                     to="/$countryCode/account"
-                    params={{ countryCode }}
+                    params={{ countryCode: countryCode || "" }}
                     className="px-6 py-3 text-neutral-700 hover:text-neutral-900 hover:bg-neutral-50 text-sm transition-colors"
                   >
                     Login

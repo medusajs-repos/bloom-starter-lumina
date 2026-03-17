@@ -4,6 +4,7 @@ import { queryKeys } from "@/lib/utils/query-keys";
 import ProductDetails from "@/pages/product";
 import { HttpTypes } from "@medusajs/types";
 import { createFileRoute, notFound } from "@tanstack/react-router";
+import { sanitize } from "@/lib/utils/sanitize";
 
 export const Route = createFileRoute("/$countryCode/products/$handle")({
   loader: async ({ params, context }) => {
@@ -80,12 +81,12 @@ export const Route = createFileRoute("/$countryCode/products/$handle")({
       },
     });
 
-    return {
+    return sanitize({
       countryCode,
       region,
       product: product as HttpTypes.StoreProduct,
       routineProducts,
-    };
+    });
   },
   head: ({ loaderData }) => {
     const { product, region } = loaderData || {};

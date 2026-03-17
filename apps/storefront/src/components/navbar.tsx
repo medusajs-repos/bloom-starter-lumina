@@ -109,7 +109,8 @@ export const Navbar = () => {
                     {/* Our Formulations */}
                     <DrawerClose asChild>
                       <Link
-                        to={`${baseHref}/formulations`}
+                        to={"/$countryCode/formulations" as string}
+                        params={{ countryCode: countryCode || "us" }}
                         className="px-6 py-4 text-slate-900 text-base font-medium hover:bg-gray-50"
                       >
                         Our Formulations
@@ -119,7 +120,8 @@ export const Navbar = () => {
                     {/* Experiences */}
                     <DrawerClose asChild>
                       <Link
-                        to={`${baseHref}/experiences`}
+                        to="/$countryCode/experiences"
+                        params={{ countryCode: countryCode || "us" }}
                         className="px-6 py-4 text-slate-900 text-base font-medium hover:bg-gray-50"
                       >
                         Experiences
@@ -129,7 +131,8 @@ export const Navbar = () => {
                     {/* Products & Prices */}
                     <DrawerClose asChild>
                       <Link
-                        to={`${baseHref}/store`}
+                        to="/$countryCode/store"
+                        params={{ countryCode: countryCode || "us" }}
                         className="px-6 py-4 text-slate-900 text-base font-medium hover:bg-gray-50"
                       >
                         Products & Prices
@@ -139,7 +142,8 @@ export const Navbar = () => {
                     {/* Skincare Guide */}
                     <DrawerClose asChild>
                       <Link
-                        to={`${baseHref}/skincare-guide`}
+                        to="/$countryCode/skincare-guide"
+                        params={{ countryCode: countryCode || "us" }}
                         className="px-6 py-4 text-slate-900 text-base font-medium hover:bg-gray-50"
                       >
                         Skincare Guide

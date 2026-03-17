@@ -12,6 +12,7 @@ import {
 } from "@/lib/quiz-config"
 import { HttpTypes } from "@medusajs/types"
 import { formatPrice } from "@/lib/utils/price"
+import { sanitize } from "@/lib/utils/sanitize"
 
 export const Route = createFileRoute("/$countryCode/quiz/confirm")({
   validateSearch: (search: Record<string, unknown>) => ({
@@ -29,7 +30,7 @@ export const Route = createFileRoute("/$countryCode/quiz/confirm")({
     // Get recommendation from session storage (client-side only)
     if (typeof window !== "undefined") {
       const recommendation = loadRecommendationFromSession()
-      if (recommendation) {
+      if (recommendation && region) {
         const product = await queryClient.ensureQueryData({
           queryKey: ["product", recommendation.productHandle, region.id],
           queryFn: async () => {
@@ -42,21 +43,21 @@ export const Route = createFileRoute("/$countryCode/quiz/confirm")({
           },
         })
 
-        return {
+        return sanitize({
           countryCode,
           region,
           product: product as HttpTypes.StoreProduct,
           recommendation,
-        }
+        })
       }
     }
 
-    return {
+    return sanitize({
       countryCode,
       region,
       product: null,
       recommendation: null,
-    }
+    })
   },
   component: QuizConfirm,
 })
@@ -68,9 +69,9 @@ function QuizConfirm() {
   const loaderData = Route.useLoaderData()
 
   const [recommendation, setRecommendation] = useState(
-    loaderData.recommendation
+    loaderData?.recommendation
   )
-  const [product, setProduct] = useState(loaderData.product)
+  const [product, setProduct] = useState(loaderData?.product)
   const [answers, setAnswers] = useState(() => loadAnswersFromSession())
 
   const addToCartMutation = useAddToCart({ fields: "+items.total" })
@@ -88,7 +89,7 @@ function QuizConfirm() {
       if (storedRecommendation && !product) {
         retrieveProduct({
           handle: storedRecommendation.productHandle,
-          region_id: loaderData.region.id,
+          region_id: loaderData?.region?.id,
           fields: "*variants, +variants.calculated_price, *images, *options",
         }).then(setProduct)
       }
@@ -123,7 +124,7 @@ function QuizConfirm() {
         country_code: countryCode,
         product,
         variant,
-        region: loaderData.region,
+        region: loaderData?.region,
       })
 
       // Attach quiz metadata to cart
@@ -249,7 +250,7 @@ function QuizConfirm() {
                       <p className="text-lg font-medium text-zinc-900">
                         {formatPrice({
                           amount: price.calculated_amount,
-                          currency_code: loaderData.region.currency_code,
+                          currency_code: loaderData?.region?.currency_code,
                         })}
                       </p>
                     )}
@@ -266,7 +267,7 @@ function QuizConfirm() {
               variant="secondary"
               onClick={() =>
                 navigate({
-                  to: "/$countryCode/quiz/results",
+                  to: "/$countryCode/quiz-results",
                   params: { countryCode },
                 })
               }

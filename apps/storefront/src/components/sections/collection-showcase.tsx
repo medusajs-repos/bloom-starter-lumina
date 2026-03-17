@@ -1,5 +1,6 @@
-import { Link } from "@tanstack/react-router"
+import { Link, useLocation } from "@tanstack/react-router"
 import { ArrowRight } from "@medusajs/icons"
+import { getCountryCodeFromPath } from "@/lib/utils/region"
 
 interface Collection {
   id: string
@@ -13,6 +14,9 @@ interface CollectionShowcaseProps {
 }
 
 export function CollectionShowcase({ collections }: CollectionShowcaseProps) {
+  const location = useLocation()
+  const countryCode = getCountryCodeFromPath(location.pathname)
+
   if (!collections || collections.length === 0) {
     return null
   }
@@ -28,8 +32,8 @@ export function CollectionShowcase({ collections }: CollectionShowcaseProps) {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:h-[800px]">
           {/* Large Left Collection - Full Height */}
           <Link
-            to="/collections/$handle"
-            params={{ handle: firstCollection.handle }}
+            to="/$countryCode/collections/$handle"
+            params={{ countryCode: countryCode || "us", handle: firstCollection.handle }}
             className="group relative overflow-hidden bg-neutral-100 aspect-[3/4] lg:aspect-auto lg:h-full"
           >
             <img
@@ -52,8 +56,8 @@ export function CollectionShowcase({ collections }: CollectionShowcaseProps) {
             {restCollections.slice(0, 2).map((collection) => (
               <Link
                 key={collection.id}
-                to="/collections/$handle"
-                params={{ handle: collection.handle }}
+                to="/$countryCode/collections/$handle"
+                params={{ countryCode: countryCode || "us", handle: collection.handle }}
                 className="group relative overflow-hidden bg-neutral-100 flex-1"
               >
                 <img

@@ -48,8 +48,10 @@ const Cart = () => {
 
   // Fetch cross-sell products
   const { data: crossSellData } = useProducts({
-    fields: "id,title,handle,thumbnail,*calculated_price",
-    queryParams: { limit: 4 },
+    query_params: {
+      fields: "id,title,handle,thumbnail,*variants.calculated_price",
+      limit: 4,
+    },
     region_id: region.id,
   })
 
@@ -192,11 +194,11 @@ const Cart = () => {
                       <h3 className="text-sm font-medium text-neutral-900 mb-2 group-hover:text-neutral-600 transition-colors">
                         {product.title}
                       </h3>
-                      {product.calculated_price && (
+                      {(product as any).calculated_price && (
                         <p className="text-sm text-neutral-600">
                           {formatPrice(
-                            product.calculated_price.calculated_amount,
-                            product.calculated_price.currency_code
+                            (product as any).calculated_price.calculated_amount,
+                            (product as any).calculated_price.currency_code
                           )}
                         </p>
                       )}

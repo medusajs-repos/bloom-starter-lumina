@@ -1,6 +1,7 @@
 import { createFileRoute, notFound } from "@tanstack/react-router"
 import Cart from "@/pages/cart"
 import { getRegion } from "@/lib/data/regions"
+import { sanitize } from "@/lib/utils/sanitize"
 
 export const Route = createFileRoute("/$countryCode/cart")({
   loader: async ({ params, context }) => {
@@ -16,10 +17,10 @@ export const Route = createFileRoute("/$countryCode/cart")({
       throw notFound()
     }
 
-    return {
+    return sanitize({
       region,
       countryCode,
-    }
+    })
   },
   component: Cart,
 })

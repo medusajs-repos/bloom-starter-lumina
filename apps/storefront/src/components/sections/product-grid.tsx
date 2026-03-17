@@ -114,7 +114,8 @@ const ProductCard = ({
       onMouseLeave={() => setIsHovered(false)}
     >
       <Link
-        to={`${baseHref}/products/${product.handle}`}
+        to="/$countryCode/products/$handle"
+        params={{ countryCode: baseHref.replace("/", "") || "us", handle: product.handle }}
         className="block relative"
       >
         <div className="aspect-[3/4] bg-sand-50 mb-4 overflow-hidden relative">

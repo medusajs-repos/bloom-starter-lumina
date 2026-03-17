@@ -32,10 +32,14 @@ export const RelatedProducts = ({
         </h2>
 
         <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8">
-          {products.slice(0, 4).map((product) => (
+          {products.slice(0, 4).map((product) => {
+            const variant = product.variants?.[0]
+            const calcPrice = variant?.calculated_price
+            return (
             <Link
               key={product.id}
-              to={`${baseHref}/products/${product.handle}`}
+              to="/$countryCode/products/$handle"
+              params={{ countryCode: baseHref.replace("/", "") || "us", handle: product.handle || "" }}
               className="group"
             >
               <div className="aspect-[3/4] bg-sand-50 mb-4 overflow-hidden">
@@ -55,17 +59,18 @@ export const RelatedProducts = ({
                 <h3 className="text-sm font-medium text-neutral-900 mb-2 group-hover:text-neutral-600 transition-colors">
                   {product.title}
                 </h3>
-                {product.calculated_price && (
+                {calcPrice && (
                   <p className="text-sm text-neutral-600">
                     {formatPrice(
-                      product.calculated_price.calculated_amount,
-                      product.calculated_price.currency_code
+                      calcPrice.calculated_amount ?? undefined,
+                      calcPrice.currency_code ?? undefined
                     )}
                   </p>
                 )}
               </div>
             </Link>
-          ))}
+            )
+          })}
         </div>
       </div>
     </section>

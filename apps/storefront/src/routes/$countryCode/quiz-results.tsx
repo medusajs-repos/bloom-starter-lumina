@@ -6,6 +6,7 @@ import { useState } from "react";
 import { useAddToCart } from "@/lib/hooks/use-cart";
 import { useCartDrawer } from "@/lib/context/cart";
 import { Star, Check } from "@medusajs/icons";
+import { sanitize } from "@/lib/utils/sanitize";
 
 type RouteSearch = {
   product?: string;
@@ -58,7 +59,7 @@ export const Route = createFileRoute("/$countryCode/quiz-results")({
       region_id: region.id,
     });
 
-    return {
+    return sanitize({
       product,
       region,
       productHandle,
@@ -69,7 +70,7 @@ export const Route = createFileRoute("/$countryCode/quiz-results")({
         skinSensitivity: deps.search.skinSensitivity,
         age: deps.search.age,
       },
-    };
+    });
   },
   component: QuizResults,
 });
@@ -486,7 +487,7 @@ function QuizResults() {
               to="/$countryCode/products/$handle"
               params={{ countryCode, handle: product.handle! }}
             >
-              <Button variant="outline" className="w-full h-14 border-2 border-slate-200 text-slate-900 hover:bg-slate-50 text-base font-medium">
+              <Button variant="secondary" className="w-full h-14 border-2 border-slate-200 text-slate-900 hover:bg-slate-50 text-base font-medium">
                 View Full Details
               </Button>
             </Link>
@@ -578,7 +579,7 @@ function QuizResults() {
                     <p className="text-sm text-slate-600 mb-3 line-clamp-2">{recProduct.description || 'Premium skincare product'}</p>
                     <div className="flex items-center justify-between">
                       <span className="text-lg font-display text-slate-900">{formattedPrice || '$--'}</span>
-                      <Button variant="outline" size="sm" className="border-slate-200 hover:bg-slate-50">
+                      <Button variant="secondary" size="fit" className="border-slate-200 hover:bg-slate-50">
                         View Product
                       </Button>
                     </div>

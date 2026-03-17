@@ -212,7 +212,7 @@ const Category = () => {
       result = result.filter((item) => {
         // Color was extracted during variantItems creation
         return item.color && selectedFilters.color.some((filterColor: string) => {
-          const itemColor = item.color.toLowerCase()
+          const itemColor = item.color!.toLowerCase()
           const filter = filterColor.toLowerCase()
           // Match exact or partial (e.g., "muted olive" matches "olive")
           return itemColor === filter || itemColor.includes(filter) || filter.includes(itemColor)

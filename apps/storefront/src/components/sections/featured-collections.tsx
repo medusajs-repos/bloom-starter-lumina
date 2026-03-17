@@ -35,7 +35,8 @@ export const FeaturedCollections = ({
           {collections.slice(0, 3).map((collection) => (
             <Link
               key={collection.handle}
-              to={`${baseHref}/categories/${collection.handle}`}
+              to="/$countryCode/categories/$handle"
+              params={{ countryCode: baseHref.replace("/", "") || "us", handle: collection.handle }}
               className="group"
             >
               <div className="aspect-[3/4] bg-sand-100 mb-4 overflow-hidden">

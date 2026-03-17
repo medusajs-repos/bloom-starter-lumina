@@ -14,7 +14,6 @@ interface ProductCardProps {
 const ProductCard = ({ product, variant, selectedColor }: ProductCardProps) => {
   const location = useLocation();
   const countryCode = getCountryCodeFromPath(location.pathname);
-  const baseHref = countryCode ? `/${countryCode}` : "";
   const [isHovered, setIsHovered] = useState(false);
   
   // If a specific variant is provided, use its images
@@ -105,7 +104,8 @@ const ProductCard = ({ product, variant, selectedColor }: ProductCardProps) => {
 
   return (
     <Link
-      to={`${baseHref}/products/${product.handle}` as any}
+      to="/$countryCode/products/$handle"
+      params={{ countryCode: countryCode || "us", handle: product.handle || "" }}
       className="group flex flex-col w-full"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
