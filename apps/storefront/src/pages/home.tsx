@@ -52,9 +52,9 @@ const Home = () => {
               Scientifically formulated treatments tailored to your unique biology
             </p>
             <div className="flex gap-4">
-              <Link to="/$countryCode/quiz" params={{ countryCode }}>
-                <Button 
-                  size="lg" 
+              <Link to="/$countryCode/quiz" params={{ countryCode: countryCode || "us" }}>
+                <Button
+                  size="fit"
                   className="bg-black hover:bg-gray-900 text-white px-12 py-6 text-base font-bold rounded-lg"
                 >
                   <ArrowRight className="mr-2" />
@@ -164,7 +164,8 @@ const Home = () => {
               {productsData.pages[0].products.slice(0, 3).map((product: any) => (
                 <Link 
                   key={product.id} 
-                  to={`${baseHref}/products/${product.handle}`}
+                  to="/$countryCode/products/$handle"
+                  params={{ countryCode: countryCode || "us", handle: product.handle }}
                   className="group block"
                 >
                   <div className="aspect-square bg-white overflow-hidden mb-5 group-hover:shadow-lg transition-all duration-300 rounded-lg">
@@ -192,10 +193,10 @@ const Home = () => {
             </div>
 
             <div className="mt-16">
-              <Link to={`${baseHref}/store`}>
-                <Button 
-                  variant="outline" 
-                  size="lg"
+              <Link to="/$countryCode/store" params={{ countryCode: countryCode || "us" }}>
+                <Button
+                  variant="secondary"
+                  size="fit"
                   className="border-2 border-black text-black hover:bg-black hover:text-white rounded-full px-10"
                 >
                   View All Products
@@ -215,9 +216,9 @@ const Home = () => {
           <p className="text-lg text-slate-300 mb-12 max-w-2xl mx-auto font-light">
             Take our personalized quiz to discover the perfect formulation for your skin's unique needs
           </p>
-          <Link to={`${baseHref}/quiz`}>
-            <Button 
-              size="lg"
+          <Link to="/$countryCode/quiz" params={{ countryCode: countryCode || "us" }}>
+            <Button
+              size="fit"
               className="bg-white hover:bg-frost-50 text-slate-900 px-12 py-6 text-base font-medium rounded-sm"
             >
               Take the Quiz

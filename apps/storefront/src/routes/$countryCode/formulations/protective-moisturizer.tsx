@@ -70,7 +70,8 @@ function ProtectiveMoisturizer() {
                 className="w-full h-auto"
               />
               <Link
-                to={`/${countryCode}/products/protective-moisturizer`}
+                to="/$countryCode/products/$handle"
+                params={{ countryCode, handle: "protective-moisturizer" }}
                 className="block w-full bg-gray-900 text-white text-center px-6 py-3 text-sm hover:bg-gray-800 transition-colors mt-4"
               >
                 Shop Now
@@ -379,7 +380,8 @@ function ProtectiveMoisturizer() {
               daily defense moisturizer designed for the modern world.
             </p>
             <Link
-              to={`/${countryCode}/products/protective-moisturizer`}
+              to="/$countryCode/products/$handle"
+                params={{ countryCode, handle: "protective-moisturizer" }}
               className="inline-block bg-gray-900 text-white px-12 py-4 hover:bg-gray-800 transition-colors text-lg"
             >
               Shop Protective Moisturizer

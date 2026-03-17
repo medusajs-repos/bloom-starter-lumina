@@ -103,7 +103,8 @@ export const PredictiveSearch = () => {
                       {products.map((product) => (
                         <Link
                           key={product.id}
-                          to={`${baseHref}/products/${product.handle}`}
+                          to={"/$countryCode/products/$handle" as string}
+                          params={{ countryCode: countryCode || "us", handle: product.handle || "" }}
                           onClick={handleClose}
                           className="flex items-center gap-4 hover:bg-sand-50 p-2 transition-colors"
                         >
@@ -124,11 +125,11 @@ export const PredictiveSearch = () => {
                             <h4 className="text-sm font-medium text-neutral-900 truncate">
                               {product.title}
                             </h4>
-                            {product.calculated_price && (
+                            {(product as any).calculated_price && (
                               <p className="text-sm text-neutral-600">
                                 {formatPrice(
-                                  product.calculated_price.calculated_amount,
-                                  product.calculated_price.currency_code
+                                  (product as any).calculated_price.calculated_amount,
+                                  (product as any).calculated_price.currency_code
                                 )}
                               </p>
                             )}
@@ -191,7 +192,8 @@ export const PredictiveSearch = () => {
                     {products.map((product) => (
                       <Link
                         key={product.id}
-                        to={`${baseHref}/products/${product.handle}`}
+                        to={"/$countryCode/products/$handle" as string}
+                          params={{ countryCode: countryCode || "us", handle: product.handle || "" }}
                         onClick={handleClose}
                         className="flex items-center gap-4 hover:bg-sand-50 p-2 transition-colors"
                       >
@@ -212,11 +214,11 @@ export const PredictiveSearch = () => {
                           <h4 className="text-sm font-medium text-neutral-900 truncate">
                             {product.title}
                           </h4>
-                          {product.calculated_price && (
+                          {(product as any).calculated_price && (
                             <p className="text-sm text-neutral-600">
                               {formatPrice(
-                                product.calculated_price.calculated_amount,
-                                product.calculated_price.currency_code
+                                (product as any).calculated_price.calculated_amount,
+                                (product as any).calculated_price.currency_code
                               )}
                             </p>
                           )}

@@ -28,7 +28,7 @@ export function CollectionShowcase({ collections }: CollectionShowcaseProps) {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:h-[800px]">
           {/* Large Left Collection - Full Height */}
           <Link
-            to="/collections/$handle"
+            to={"/collections/$handle" as string}
             params={{ handle: firstCollection.handle }}
             className="group relative overflow-hidden bg-neutral-100 aspect-[3/4] lg:aspect-auto lg:h-full"
           >
@@ -52,7 +52,7 @@ export function CollectionShowcase({ collections }: CollectionShowcaseProps) {
             {restCollections.slice(0, 2).map((collection) => (
               <Link
                 key={collection.id}
-                to="/collections/$handle"
+                to={"/collections/$handle" as string}
                 params={{ handle: collection.handle }}
                 className="group relative overflow-hidden bg-neutral-100 flex-1"
               >

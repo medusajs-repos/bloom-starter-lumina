@@ -1,6 +1,5 @@
 import { useState } from "react"
 import { useNavigate, useSearch } from "@tanstack/react-router"
-import { Container } from "~/components/ui/container"
 
 const skinIssues = [
   { id: "acne", label: "Acne & Breakouts", description: "Persistent breakouts and blemishes" },
@@ -37,27 +36,27 @@ export default function Quiz() {
 
   const handleNext = () => {
     if (step === "1" && selectedIssues.length > 0) {
-      navigate({ search: { step: "2" } })
+      navigate({ search: { step: "2" } } as any)
     } else if (step === "2" && selectedRoutine) {
       navigate({
-        to: "/$countryCode/quiz/results",
+        to: "/$countryCode/quiz-results" as string,
         params: { countryCode: "us" },
         search: {
           issues: selectedIssues.join(","),
           routine: selectedRoutine,
         },
-      })
+      } as any)
     }
   }
 
   const handleBack = () => {
     if (step === "2") {
-      navigate({ search: { step: "1" } })
+      navigate({ search: { step: "1" } } as any)
     }
   }
 
   return (
-    <Container className="py-16">
+    <div className="content-container py-16">
       <div className="max-w-3xl mx-auto">
         {/* Progress Bar */}
         <div className="mb-12">
@@ -182,6 +181,6 @@ export default function Quiz() {
           </div>
         )}
       </div>
-    </Container>
+    </div>
   )
 }

@@ -136,9 +136,8 @@ export function useRegister() {
         console.log('🛒 Associating cart with customer:', cartId)
         try {
           await sdk.store.cart.update(cartId, {
-            customer_id: customer.id,
             email: customer.email
-          })
+          } as any)
           console.log('✅ Cart associated with customer')
         } catch (err) {
           console.error('❌ Failed to associate cart:', err)

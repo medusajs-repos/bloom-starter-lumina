@@ -84,7 +84,7 @@ const ProductActions = memo(function ProductActions({
 
   // Notify parent component when options change
   useEffect(() => {
-    onOptionsChange?.(selectedOptions);
+    onOptionsChange?.(selectedOptions as Record<string, string>);
   }, [selectedOptions, onOptionsChange]);
 
   // update the options when a variant is selected

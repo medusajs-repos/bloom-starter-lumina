@@ -3,6 +3,7 @@ import { createFileRoute } from "@tanstack/react-router"
 import { getRegion } from "@/lib/data/regions"
 import { listProducts } from "@/lib/data/products"
 import { queryKeys } from "@/lib/utils/query-keys"
+import { sanitize } from "@/lib/utils/sanitize"
 
 export const Route = createFileRoute("/$countryCode/")({
   loader: async ({ params, context }) => {
@@ -16,7 +17,7 @@ export const Route = createFileRoute("/$countryCode/")({
     })
 
     if (!region) {
-      return { countryCode, region: null }
+      return sanitize({ countryCode, region: null })
     }
 
     // Prefetch latest products for SSR (non-blocking)
@@ -33,10 +34,10 @@ export const Route = createFileRoute("/$countryCode/")({
         }),
     })
 
-    return {
+    return sanitize({
       countryCode,
       region,
-    }
+    })
   },
   head: () => {
     const title = `Welcome to Medusa Store`

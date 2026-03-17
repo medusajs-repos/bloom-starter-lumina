@@ -388,7 +388,7 @@ function Quiz() {
           <div className="flex justify-between mt-8">
             <Button
               onClick={handleBack}
-              variant="outline"
+              variant="secondary"
               disabled={step === 1}
               className="border-slate-300 text-slate-900 hover:bg-slate-50"
             >
