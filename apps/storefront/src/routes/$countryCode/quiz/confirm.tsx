@@ -267,7 +267,7 @@ function QuizConfirm() {
               variant="secondary"
               onClick={() =>
                 navigate({
-                  to: "/$countryCode/quiz-results" as string,
+                  to: "/$countryCode/quiz-results",
                   params: { countryCode },
                 })
               }

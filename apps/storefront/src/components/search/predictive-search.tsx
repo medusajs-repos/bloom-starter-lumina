@@ -103,7 +103,7 @@ export const PredictiveSearch = () => {
                       {products.map((product) => (
                         <Link
                           key={product.id}
-                          to={"/$countryCode/products/$handle" as string}
+                          to="/$countryCode/products/$handle"
                           params={{ countryCode: countryCode || "us", handle: product.handle || "" }}
                           onClick={handleClose}
                           className="flex items-center gap-4 hover:bg-sand-50 p-2 transition-colors"
@@ -192,7 +192,7 @@ export const PredictiveSearch = () => {
                     {products.map((product) => (
                       <Link
                         key={product.id}
-                        to={"/$countryCode/products/$handle" as string}
+                        to="/$countryCode/products/$handle"
                           params={{ countryCode: countryCode || "us", handle: product.handle || "" }}
                         onClick={handleClose}
                         className="flex items-center gap-4 hover:bg-sand-50 p-2 transition-colors"

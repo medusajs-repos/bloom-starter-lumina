@@ -120,7 +120,7 @@ export const Navbar = () => {
                     {/* Experiences */}
                     <DrawerClose asChild>
                       <Link
-                        to={"/$countryCode/experiences" as string}
+                        to="/$countryCode/experiences"
                         params={{ countryCode: countryCode || "us" }}
                         className="px-6 py-4 text-slate-900 text-base font-medium hover:bg-gray-50"
                       >
@@ -142,7 +142,7 @@ export const Navbar = () => {
                     {/* Skincare Guide */}
                     <DrawerClose asChild>
                       <Link
-                        to={"/$countryCode/skincare-guide" as string}
+                        to="/$countryCode/skincare-guide"
                         params={{ countryCode: countryCode || "us" }}
                         className="px-6 py-4 text-slate-900 text-base font-medium hover:bg-gray-50"
                       >

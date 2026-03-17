@@ -39,7 +39,7 @@ export default function Quiz() {
       navigate({ search: { step: "2" } } as any)
     } else if (step === "2" && selectedRoutine) {
       navigate({
-        to: "/$countryCode/quiz-results" as string,
+        to: "/$countryCode/quiz-results",
         params: { countryCode: "us" },
         search: {
           issues: selectedIssues.join(","),

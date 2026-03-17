@@ -72,7 +72,7 @@ export const MegaMenu = ({ baseHref }: MegaMenuProps) => {
                     Formulated with hyaluronic acid and ceramides. Perfect for dry and dehydrated skin.
                   </p>
                   <Link
-                    to={"/$countryCode/formulations/hydrating-moisturizer" as string}
+                    to="/$countryCode/formulations/hydrating-moisturizer"
                     params={{ countryCode: baseHref.replace("/", "") || "us" }}
                     onClick={() => setActiveMenu(null)}
                     className="inline-flex items-center text-sm font-medium text-primary-700 hover:text-primary-800 transition-colors"
@@ -97,7 +97,7 @@ export const MegaMenu = ({ baseHref }: MegaMenuProps) => {
                     Enriched with niacinamide and zinc. Ideal for combination and oily skin.
                   </p>
                   <Link
-                    to={"/$countryCode/formulations/balancing-moisturizer" as string}
+                    to="/$countryCode/formulations/balancing-moisturizer"
                     params={{ countryCode: baseHref.replace("/", "") || "us" }}
                     onClick={() => setActiveMenu(null)}
                     className="inline-flex items-center text-sm font-medium text-primary-700 hover:text-primary-800 transition-colors"
@@ -122,7 +122,7 @@ export const MegaMenu = ({ baseHref }: MegaMenuProps) => {
                     Powered by antioxidants and SPF 30. Best for all skin types seeking daily protection.
                   </p>
                   <Link
-                    to={"/$countryCode/formulations/protective-moisturizer" as string}
+                    to="/$countryCode/formulations/protective-moisturizer"
                     params={{ countryCode: baseHref.replace("/", "") || "us" }}
                     onClick={() => setActiveMenu(null)}
                     className="inline-flex items-center text-sm font-medium text-primary-700 hover:text-primary-800 transition-colors"
@@ -137,7 +137,7 @@ export const MegaMenu = ({ baseHref }: MegaMenuProps) => {
 
         {/* Experiences - direct link */}
         <Link
-          to={"/$countryCode/experiences" as string}
+          to="/$countryCode/experiences"
           params={{ countryCode: baseHref.replace("/", "") || "us" }}
           className="text-black hover:text-primary-700 transition-colors text-sm py-2 font-medium"
         >
@@ -155,7 +155,7 @@ export const MegaMenu = ({ baseHref }: MegaMenuProps) => {
 
         {/* Skincare Guide - direct link */}
         <Link
-          to={"/$countryCode/skincare-guide" as string}
+          to="/$countryCode/skincare-guide"
           params={{ countryCode: baseHref.replace("/", "") || "us" }}
           className="text-black hover:text-primary-700 transition-colors text-sm py-2 font-medium"
         >

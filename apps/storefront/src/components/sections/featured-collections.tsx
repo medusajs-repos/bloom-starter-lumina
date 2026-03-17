@@ -35,7 +35,7 @@ export const FeaturedCollections = ({
           {collections.slice(0, 3).map((collection) => (
             <Link
               key={collection.handle}
-              to={"/$countryCode/categories/$handle" as string}
+              to="/$countryCode/categories/$handle"
               params={{ countryCode: baseHref.replace("/", "") || "us", handle: collection.handle }}
               className="group"
             >
