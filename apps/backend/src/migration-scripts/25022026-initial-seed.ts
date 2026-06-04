@@ -7,6 +7,7 @@ import {
 import {
     createDefaultsWorkflow,
     createProductCategoriesWorkflow,
+    createProductOptionsWorkflow,
     createProductsWorkflow,
     createRegionsWorkflow,
     createShippingOptionsWorkflow,
@@ -373,6 +374,50 @@ export default async function migration_25022026_initial_seed({
 
     const existingHandles = existingProducts.map((p: any) => p.handle);
 
+    // Look up existing global product options (idempotency for re-runs).
+    const { data: existingProductOptions } = await query.graph({
+        entity: "product_option",
+        fields: ["id", "title", "is_exclusive", "values.id", "values.value"],
+        filters: { is_exclusive: false } as any,
+    });
+
+    const optionTitlesToCreate: { title: string; values: string[] }[] = [
+        { title: "Size", values: ["30ml", "50ml", "100ml"] },
+        { title: "Delivery Option", values: ["One-time", "Monthly", "Quarterly"] },
+    ];
+
+    const missingOptions = optionTitlesToCreate.filter(
+        (o) => !existingProductOptions.find((eo: any) => eo.title === o.title)
+    );
+
+    if (missingOptions.length > 0) {
+        await createProductOptionsWorkflow(container).run({
+            input: { product_options: missingOptions },
+        });
+    }
+
+    const { data: globalProductOptions } = await query.graph({
+        entity: "product_option",
+        fields: ["id", "title", "is_exclusive", "values.id", "values.value"],
+        filters: { is_exclusive: false } as any,
+    });
+
+    const optionByTitle: Record<string, { id: string; values: { id: string; value: string }[] }> = {};
+    globalProductOptions.forEach((o: any) => {
+        optionByTitle[o.title] = { id: o.id, values: o.values || [] };
+    });
+
+    const sizeOption = optionByTitle["Size"];
+    const deliveryOption = optionByTitle["Delivery Option"];
+
+    const sizeValueId = (value: string) =>
+        sizeOption.values.find((v) => v.value === value)?.id as string;
+
+    const buildOptions = (sizes: string[]) => [
+        { id: sizeOption.id, value_ids: sizes.map((s) => sizeValueId(s)).filter(Boolean) },
+        { id: deliveryOption.id },
+    ];
+
     const productsToCreate = [
         {
             title: "Hydrating Moisturizer",
@@ -387,16 +432,7 @@ export default async function migration_25022026_initial_seed({
             images: [
                 { url: "https://cdn.mignite.app/ws/works_01KGQ5H8GE886HVXP786G1873G/image-01KGS5C3SYG7TE5TADGHG73MBK.png" },
             ],
-            options: [
-                {
-                    title: "Size",
-                    values: ["50ml", "100ml"],
-                },
-                {
-                    title: "Delivery Option",
-                    values: ["One-time", "Monthly", "Quarterly"],
-                },
-            ],
+            options: buildOptions(["50ml", "100ml"]),
             variants: [
                 { title: "50ml - One-time", manage_inventory: false, options: { Size: "50ml", "Delivery Option": "One-time" }, prices: [{ currency_code: "usd", amount: 25 }, { currency_code: "eur", amount: 23 }] },
                 { title: "50ml - Monthly", manage_inventory: false, options: { Size: "50ml", "Delivery Option": "Monthly" }, prices: [{ currency_code: "usd", amount: 22 }, { currency_code: "eur", amount: 20 }] },
@@ -419,16 +455,7 @@ export default async function migration_25022026_initial_seed({
             images: [
                 { url: "https://cdn.mignite.app/ws/works_01KGQ5H8GE886HVXP786G1873G/image-01KGS5N6XS7SWQHD4PP2VXJJYB.png" },
             ],
-            options: [
-                {
-                    title: "Size",
-                    values: ["50ml", "100ml"],
-                },
-                {
-                    title: "Delivery Option",
-                    values: ["One-time", "Monthly", "Quarterly"],
-                },
-            ],
+            options: buildOptions(["50ml", "100ml"]),
             variants: [
                 { title: "50ml - One-time", manage_inventory: false, options: { Size: "50ml", "Delivery Option": "One-time" }, prices: [{ currency_code: "usd", amount: 28 }, { currency_code: "eur", amount: 26 }] },
                 { title: "50ml - Monthly", manage_inventory: false, options: { Size: "50ml", "Delivery Option": "Monthly" }, prices: [{ currency_code: "usd", amount: 25 }, { currency_code: "eur", amount: 23 }] },
@@ -451,16 +478,7 @@ export default async function migration_25022026_initial_seed({
             images: [
                 { url: "https://cdn.mignite.app/ws/works_01KGQ5H8GE886HVXP786G1873G/Lumina_3-01KGS6PGXWVS4225024G5BVJQ0.jpeg" },
             ],
-            options: [
-                {
-                    title: "Size",
-                    values: ["50ml", "100ml"],
-                },
-                {
-                    title: "Delivery Option",
-                    values: ["One-time", "Monthly", "Quarterly"],
-                },
-            ],
+            options: buildOptions(["50ml", "100ml"]),
             variants: [
                 { title: "50ml - One-time", manage_inventory: false, options: { Size: "50ml", "Delivery Option": "One-time" }, prices: [{ currency_code: "usd", amount: 32 }, { currency_code: "eur", amount: 30 }] },
                 { title: "50ml - Monthly", manage_inventory: false, options: { Size: "50ml", "Delivery Option": "Monthly" }, prices: [{ currency_code: "usd", amount: 29 }, { currency_code: "eur", amount: 27 }] },
@@ -483,16 +501,7 @@ export default async function migration_25022026_initial_seed({
             images: [
                 { url: "https://cdn.mignite.app/ws/works_01KGQ5H8GE886HVXP786G1873G/Skincare-nano_banana_pro_20260209_151810_1--01KH3C5JKAJY9YN6W5Z8YF3ADH.jpeg" },
             ],
-            options: [
-                {
-                    title: "Size",
-                    values: ["30ml"],
-                },
-                {
-                    title: "Delivery Option",
-                    values: ["One-time", "Monthly", "Quarterly"],
-                },
-            ],
+            options: buildOptions(["30ml"]),
             variants: [
                 { title: "30ml - One-time", manage_inventory: false, options: { Size: "30ml", "Delivery Option": "One-time" }, prices: [{ currency_code: "usd", amount: 35 }, { currency_code: "eur", amount: 33 }] },
                 { title: "30ml - Monthly", manage_inventory: false, options: { Size: "30ml", "Delivery Option": "Monthly" }, prices: [{ currency_code: "usd", amount: 32 }, { currency_code: "eur", amount: 30 }] },
@@ -512,16 +521,7 @@ export default async function migration_25022026_initial_seed({
             images: [
                 { url: "https://cdn.mignite.app/ws/works_01KGQ5H8GE886HVXP786G1873G/Skincare-nano_banana_pro_20260209_152843_1--01KH3C7TF3X5VEMW4CY4EJHBWS.jpeg" },
             ],
-            options: [
-                {
-                    title: "Size",
-                    values: ["30ml"],
-                },
-                {
-                    title: "Delivery Option",
-                    values: ["One-time", "Monthly", "Quarterly"],
-                },
-            ],
+            options: buildOptions(["30ml"]),
             variants: [
                 { title: "30ml - One-time", manage_inventory: false, options: { Size: "30ml", "Delivery Option": "One-time" }, prices: [{ currency_code: "usd", amount: 38 }, { currency_code: "eur", amount: 36 }] },
                 { title: "30ml - Monthly", manage_inventory: false, options: { Size: "30ml", "Delivery Option": "Monthly" }, prices: [{ currency_code: "usd", amount: 34 }, { currency_code: "eur", amount: 32 }] },
@@ -541,16 +541,7 @@ export default async function migration_25022026_initial_seed({
             images: [
                 { url: "https://cdn.mignite.app/ws/works_01KGQ5H8GE886HVXP786G1873G/Skincare-nano_banana_pro_20260209_152847_3--01KH3C679GEGYEC6ZENWGDXYWA.jpeg" },
             ],
-            options: [
-                {
-                    title: "Size",
-                    values: ["30ml"],
-                },
-                {
-                    title: "Delivery Option",
-                    values: ["One-time", "Monthly", "Quarterly"],
-                },
-            ],
+            options: buildOptions(["30ml"]),
             variants: [
                 { title: "30ml - One-time", manage_inventory: false, options: { Size: "30ml", "Delivery Option": "One-time" }, prices: [{ currency_code: "usd", amount: 42 }, { currency_code: "eur", amount: 39 }] },
                 { title: "30ml - Monthly", manage_inventory: false, options: { Size: "30ml", "Delivery Option": "Monthly" }, prices: [{ currency_code: "usd", amount: 38 }, { currency_code: "eur", amount: 36 }] },

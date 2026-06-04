@@ -3,15 +3,26 @@ import { HttpTypes } from "@medusajs/types"
 import { queryKeys } from "@/lib/utils/query-keys"
 import { sdk } from "@/lib/utils/sdk"
 
+export type StoreProductListParamsWithOptions =
+  HttpTypes.StoreProductListParams & {
+    option_value_id?: string | string[]
+  }
+
 export const useProducts = ({
   query_params,
   region_id,
+  optionValueIds,
 }: {
-  query_params?: HttpTypes.StoreProductListParams
+  query_params?: StoreProductListParamsWithOptions
   region_id?: string
+  optionValueIds?: string[]
 } = {}) => {
+  const dedupedOptionValueIds = optionValueIds
+    ? Array.from(new Set(optionValueIds.filter(Boolean)))
+    : []
+
   return useInfiniteQuery({
-    queryKey: queryKeys.products.list(query_params, region_id),
+    queryKey: queryKeys.products.list(query_params, region_id, dedupedOptionValueIds),
     queryFn: async ({ pageParam }) => {
       const limit = query_params?.limit || 12
       const _page_param = Math.max(pageParam, 1)
@@ -23,7 +34,10 @@ export const useProducts = ({
         region_id,
         fields: "id,title,handle,thumbnail,*images,*variants,*variants.calculated_price,*variants.images,*variants.thumbnail,*variants.options",
         ...query_params,
-      })
+        ...(dedupedOptionValueIds.length > 0
+          ? { option_value_id: dedupedOptionValueIds }
+          : {}),
+      } as StoreProductListParamsWithOptions)
 
       const next_page = offset + limit < response.count ? _page_param + 1 : null
 
