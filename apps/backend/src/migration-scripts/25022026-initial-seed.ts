@@ -18,7 +18,7 @@ import {
     linkSalesChannelsToStockLocationWorkflow,
     updateStoresWorkflow,
 } from "@medusajs/medusa/core-flows";
-import { CreateProductCategoryDTO } from "@medusajs/types";
+import { CreateProductCategoryDTO } from "@medusajs/framework/types";
 
 
 export default async function migration_25022026_initial_seed({
