@@ -4,8 +4,21 @@ import Store from "@/pages/store"
 import { listProducts, getBestSellingProductIds } from "@/lib/data/products"
 import { HttpTypes } from "@medusajs/types"
 import { sanitize } from "@/lib/utils/sanitize"
+import {
+  OPTION_VALUE_QUERY_KEY,
+  parseOptionValueIds,
+} from "@/lib/utils/option-value-params"
+
+type StoreSearch = {
+  [OPTION_VALUE_QUERY_KEY]?: string[]
+}
 
 export const Route = createFileRoute("/$countryCode/store")({
+  validateSearch: (search: Record<string, unknown>): StoreSearch => ({
+    [OPTION_VALUE_QUERY_KEY]: parseOptionValueIds(
+      search as Record<string, string | string[] | undefined>
+    ),
+  }),
   loader: async ({ params, context }) => {
     const { countryCode } = params
     const { queryClient } = context

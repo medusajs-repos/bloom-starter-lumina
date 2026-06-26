@@ -49,14 +49,21 @@ import { HttpTypes } from "@medusajs/types"
  * }
  * ```
  */
+export type StoreProductListParamsWithOptions =
+  HttpTypes.StoreProductListParams & {
+    option_value_id?: string | string[];
+  }
+
 export const listProducts = async ({
   page_param = 1,
   query_params,
   region_id,
+  optionValueIds,
 }: {
   page_param?: number;
-  query_params?: HttpTypes.StoreProductListParams;
+  query_params?: StoreProductListParamsWithOptions;
   region_id?: string;
+  optionValueIds?: string[];
 }): Promise<{
   products: HttpTypes.StoreProduct[];
   count: number;
@@ -66,12 +73,19 @@ export const listProducts = async ({
   const _page_param = Math.max(page_param, 1)
   const offset = _page_param === 1 ? 0 : (_page_param - 1) * limit
 
+  const dedupedOptionValueIds = optionValueIds
+    ? Array.from(new Set(optionValueIds.filter(Boolean)))
+    : []
+
   const response = await sdk.store.product.list({
     limit,
     offset,
     region_id,
     ...query_params,
-  })
+    ...(dedupedOptionValueIds.length > 0
+      ? { option_value_id: dedupedOptionValueIds }
+      : {}),
+  } as StoreProductListParamsWithOptions)
 
   const next_page = offset + limit < response.count ? _page_param + 1 : null
 

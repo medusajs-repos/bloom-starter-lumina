@@ -1,10 +1,12 @@
 import ProductCard from "@/components/product-card"
 import { Button } from "@/components/ui/button"
 import { FilterBar } from "@/components/filters/filter-bar"
+import { OptionsPicker } from "@/components/filters/options-picker"
 import { useProducts } from "@/lib/hooks/use-products"
-import { useLoaderData } from "@tanstack/react-router"
+import { useLoaderData, useNavigate, useSearch } from "@tanstack/react-router"
 import { useState, useMemo } from "react"
 import { getPriceFilterOptions } from "@/lib/utils/price"
+import { OPTION_VALUE_QUERY_KEY } from "@/lib/utils/option-value-params"
 
 /**
  * Store Page (All Products) with Horizontal Filtering & Sorting
@@ -18,6 +20,37 @@ import { getPriceFilterOptions } from "@/lib/utils/price"
 const Store = () => {
   const loaderData = useLoaderData({ from: "/$countryCode/store" })
   const { region, bestSellingIds = [] } = loaderData || {}
+  const navigate = useNavigate()
+  const search = useSearch({ from: "/$countryCode/store" }) as Record<string, unknown>
+  const optionValueIds = useMemo(() => {
+    const raw = search?.[OPTION_VALUE_QUERY_KEY]
+    if (!raw) return [] as string[]
+    if (Array.isArray(raw)) return Array.from(new Set(raw.filter(Boolean) as string[]))
+    return typeof raw === "string" ? [raw] : []
+  }, [search])
+
+  const handleOptionValueChange = (next: string[]) => {
+    const deduped = Array.from(new Set(next))
+    const current = optionValueIds
+    const same =
+      deduped.length === current.length &&
+      deduped.every((id) => current.includes(id))
+    if (same) return
+
+    navigate({
+      to: ".",
+      search: (prev: Record<string, unknown>) => {
+        const next: Record<string, unknown> = { ...(prev || {}) }
+        if (deduped.length > 0) {
+          next[OPTION_VALUE_QUERY_KEY] = deduped
+        } else {
+          delete next[OPTION_VALUE_QUERY_KEY]
+        }
+        delete (next as Record<string, unknown>).page
+        return next
+      },
+    })
+  }
 
   const [selectedFilters, setSelectedFilters] = useState<Record<string, string[]>>({
     availability: [],
@@ -28,6 +61,7 @@ const Store = () => {
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isFetching } =
     useProducts({
       region_id: region.id,
+      optionValueIds,
       query_params: {
         limit: 12,
         fields: "*variants, *variants.options, *variants.options.option, *variants.calculated_price, *variants.inventory_items.*, *variants.inventory_items.inventory, *images",
@@ -242,37 +276,49 @@ const Store = () => {
         productCount={filteredAndSortedItems.length}
       />
 
-      {/* Products */}
-      {isFetching && filteredAndSortedItems.length === 0 ? (
-        <div className="text-neutral-600 py-12">Loading...</div>
-      ) : filteredAndSortedItems.length === 0 ? (
-        <div className="text-neutral-600 py-12">No products found</div>
-      ) : (
-        <>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8 py-8">
-            {filteredAndSortedItems.map((item, index) => (
-              <ProductCard 
-                key={`${item.product.id}-${item.variant.id}-${index}`}
-                product={item.product}
-                variant={item.variant}
-              />
-            ))}
-          </div>
+      <div className="flex flex-col lg:flex-row gap-8 lg:gap-12 mt-8">
+        {/* Sidebar: global options picker (shown only on the all-products route) */}
+        <aside className="w-full lg:w-64 flex-shrink-0">
+          <OptionsPicker
+            selectedValueIds={optionValueIds}
+            onChange={handleOptionValueChange}
+          />
+        </aside>
 
-          {hasNextPage && (
-            <div className="flex justify-center mt-8">
-              <Button
-                onClick={() => fetchNextPage()}
-                disabled={isFetchingNextPage}
-                variant="secondary"
-                className="px-8 py-3 uppercase text-xs font-semibold tracking-wider"
-              >
-                {isFetchingNextPage ? "Loading..." : "Load More"}
-              </Button>
-            </div>
+        {/* Products */}
+        <div className="flex-1 min-w-0">
+          {isFetching && filteredAndSortedItems.length === 0 ? (
+            <div className="text-neutral-600 py-12">Loading...</div>
+          ) : filteredAndSortedItems.length === 0 ? (
+            <div className="text-neutral-600 py-12">No products found</div>
+          ) : (
+            <>
+              <div className="grid grid-cols-2 md:grid-cols-3 gap-6 md:gap-8 pb-8">
+                {filteredAndSortedItems.map((item, index) => (
+                  <ProductCard
+                    key={`${item.product.id}-${item.variant.id}-${index}`}
+                    product={item.product}
+                    variant={item.variant}
+                  />
+                ))}
+              </div>
+
+              {hasNextPage && (
+                <div className="flex justify-center mt-8">
+                  <Button
+                    onClick={() => fetchNextPage()}
+                    disabled={isFetchingNextPage}
+                    variant="secondary"
+                    className="px-8 py-3 uppercase text-xs font-semibold tracking-wider"
+                  >
+                    {isFetchingNextPage ? "Loading..." : "Load More"}
+                  </Button>
+                </div>
+              )}
+            </>
           )}
-        </>
-      )}
+        </div>
+      </div>
     </div>
   )
 }
