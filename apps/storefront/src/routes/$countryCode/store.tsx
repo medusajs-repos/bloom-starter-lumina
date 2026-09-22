@@ -1,24 +1,9 @@
 import { createFileRoute, notFound } from "@tanstack/react-router"
 import { getRegion } from "@/lib/data/regions"
 import Store from "@/pages/store"
-import { listProducts, getBestSellingProductIds } from "@/lib/data/products"
-import { HttpTypes } from "@medusajs/types"
 import { sanitize } from "@/lib/utils/sanitize"
-import {
-  OPTION_VALUE_QUERY_KEY,
-  parseOptionValueIds,
-} from "@/lib/utils/option-value-params"
-
-type StoreSearch = {
-  [OPTION_VALUE_QUERY_KEY]?: string[]
-}
 
 export const Route = createFileRoute("/$countryCode/store")({
-  validateSearch: (search: Record<string, unknown>): StoreSearch => ({
-    [OPTION_VALUE_QUERY_KEY]: parseOptionValueIds(
-      search as Record<string, string | string[] | undefined>
-    ),
-  }),
   loader: async ({ params, context }) => {
     const { countryCode } = params
     const { queryClient } = context
@@ -32,25 +17,9 @@ export const Route = createFileRoute("/$countryCode/store")({
       throw notFound()
     }
 
-    const { products } = await queryClient.ensureQueryData({
-      queryKey: ["products", { region_id: region.id }],
-      queryFn: () => listProducts({
-        query_params: {
-          limit: 100, // Reduce limit for SSR performance
-          order: "-created_at"
-        },
-        region_id: region.id,
-      }),
-    })
-
-    // Get best selling product IDs
-    const bestSellingIds = await getBestSellingProductIds()
-
     return sanitize({
       countryCode,
       region,
-      products: products as HttpTypes.StoreProduct[],
-      bestSellingIds,
     })
   },
   head: ({ loaderData }) => {

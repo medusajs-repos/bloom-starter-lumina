@@ -1,7 +1,7 @@
 import { AccountDropdown } from "@/components/account-dropdown"
 import { CartDropdown } from "@/components/cart"
 import { MegaMenu } from "@/components/megamenu"
-import { PredictiveSearch } from "@/components/search/predictive-search"
+import { SearchDrawer } from "@/components/search/search-drawer"
 import {
   Drawer,
   DrawerClose,
@@ -88,7 +88,7 @@ export const Navbar = () => {
             {/* Right: Utility Icons */}
             <div className="flex items-center gap-x-6 h-full">
               {/* Search */}
-              <PredictiveSearch />
+              <SearchDrawer />
 
               {/* Account */}
               <AccountDropdown />
