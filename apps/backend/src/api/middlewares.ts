@@ -4,6 +4,8 @@ import {
 import path from "path"
 import fs from "fs"
 
+import { storeSearchMiddlewares } from "./store/search/middlewares"
+
 console.log("[MIDDLEWARES] Loading middlewares.ts file")
 
 const uploadsDir = "/tmp/medusa-uploads"
@@ -11,6 +13,7 @@ console.log("[MIDDLEWARES] Uploads directory:", uploadsDir)
 
 export default defineMiddlewares({
   routes: [
+    ...storeSearchMiddlewares,
     {
       matcher: "/uploads*",
       middlewares: [

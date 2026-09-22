@@ -1,11 +1,15 @@
 import { RefinementSection } from "@/components/search/refinements/refinement-section"
 import { Checkbox } from "@/components/ui/checkbox"
-import { SEARCH_FACETS } from "@/lib/search-facets"
+import { priceFacets } from "@/lib/search-facets"
 import { useToggleRefinement } from "react-instantsearch"
 
-export const SaleToggle = () => {
+type SaleToggleProps = {
+  currencyCode: string
+}
+
+export const SaleToggle = ({ currencyCode }: SaleToggleProps) => {
   const { value, refine, canRefine } = useToggleRefinement({
-    attribute: SEARCH_FACETS.onSale,
+    attribute: priceFacets(currencyCode).onSale,
     on: true,
   })
 

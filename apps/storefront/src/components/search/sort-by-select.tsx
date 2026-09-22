@@ -1,10 +1,14 @@
-import { SORT_OPTIONS } from "@/lib/search-facets"
+import { getSortOptions } from "@/lib/search-facets"
 import { ChevronDown } from "@medusajs/icons"
 import { useSortBy } from "react-instantsearch"
 
-export const SortBySelect = () => {
+type SortBySelectProps = {
+  currencyCode: string
+}
+
+export const SortBySelect = ({ currencyCode }: SortBySelectProps) => {
   const { currentRefinement, options, refine } = useSortBy({
-    items: SORT_OPTIONS.map((option) => ({ ...option })),
+    items: getSortOptions(currencyCode),
   })
 
   return (

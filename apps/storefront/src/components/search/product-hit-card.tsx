@@ -1,5 +1,5 @@
 import { Price } from "@/components/ui/price"
-import type { ProductHit } from "@/lib/types/search"
+import { hitPricing, type ProductHit } from "@/lib/types/search"
 import { Link } from "@tanstack/react-router"
 
 type ProductHitCardProps = {
@@ -17,15 +17,9 @@ export const ProductHitCard = ({
     return null
   }
 
-  const currencyCode = hit.currency_code ?? ""
-  const canShowPrice =
-    typeof hit.min_price === "number" &&
-    currencyCode.toLowerCase() === regionCurrencyCode.toLowerCase()
-  const isOnSale =
-    Boolean(hit.on_sale) &&
-    typeof hit.original_price === "number" &&
-    typeof hit.min_price === "number" &&
-    hit.original_price > hit.min_price
+  const pricing = hitPricing(hit, regionCurrencyCode)
+  const max = pricing.max_price ?? pricing.min_price
+  const isRange = pricing.min_price !== null && (max ?? 0) > pricing.min_price
 
   return (
     <Link
@@ -52,17 +46,19 @@ export const ProductHitCard = ({
           {hit.title}
         </p>
 
-        {canShowPrice && (
+        {pricing.min_price !== null && (
           <Price
-            price={hit.min_price!}
-            currencyCode={currencyCode}
+            price={pricing.min_price}
+            currencyCode={pricing.currency_code}
             textSize="small"
-            type="range"
+            type={isRange ? "range" : "default"}
+            // A range already spans the discount, so the struck-through
+            // original would describe only the cheapest variant.
             originalPrice={
-              isOnSale
+              !isRange && pricing.on_sale
                 ? {
-                    price: hit.original_price!,
-                    percentage: String(hit.discount_percentage ?? ""),
+                    price: pricing.original_price!,
+                    percentage: String(pricing.discount_percentage),
                   }
                 : undefined
             }

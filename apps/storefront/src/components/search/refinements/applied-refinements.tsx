@@ -6,8 +6,19 @@ const ATTRIBUTE_LABELS: Record<string, string> = {
   [SEARCH_FACETS.category]: "Category",
   [SEARCH_FACETS.labels]: "Label",
   [SEARCH_FACETS.optionValues]: "Option",
-  [SEARCH_FACETS.onSale]: "On sale",
-  [SEARCH_FACETS.minPrice]: "Price",
+}
+
+// The price facets carry a currency suffix, e.g. `min_price_usd`.
+const labelFor = (attribute: string) => {
+  if (attribute.startsWith("on_sale_")) {
+    return "On sale"
+  }
+
+  if (attribute.startsWith("min_price_")) {
+    return "Price"
+  }
+
+  return ATTRIBUTE_LABELS[attribute] ?? attribute
 }
 
 export const AppliedRefinements = () => {
@@ -22,8 +33,7 @@ export const AppliedRefinements = () => {
     <div className="flex flex-wrap items-center gap-2 pb-6">
       {items.map((item) =>
         item.refinements.map((refinement) => {
-          const attributeLabel =
-            ATTRIBUTE_LABELS[item.attribute] ?? item.attribute
+          const attributeLabel = labelFor(item.attribute)
           const separator =
             item.attribute === SEARCH_FACETS.optionValues
               ? String(refinement.label).indexOf(":")

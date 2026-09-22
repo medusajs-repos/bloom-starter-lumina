@@ -1,6 +1,7 @@
 import { RefinementSection } from "@/components/search/refinements/refinement-section"
 import { Button } from "@/components/ui/button"
-import { SEARCH_FACETS } from "@/lib/search-facets"
+import { indexedCurrency } from "@/lib/search-client"
+import { priceFacets } from "@/lib/search-facets"
 import { formatPrice } from "@/lib/utils/price"
 import { useEffect, useState } from "react"
 import { useRange } from "react-instantsearch"
@@ -13,7 +14,7 @@ export const PriceRangeRefinement = ({
   currencyCode,
 }: PriceRangeRefinementProps) => {
   const { start, range, refine, canRefine } = useRange({
-    attribute: SEARCH_FACETS.minPrice,
+    attribute: priceFacets(currencyCode).minPrice,
   })
 
   const [minInput, setMinInput] = useState("")
@@ -36,6 +37,8 @@ export const PriceRangeRefinement = ({
 
   const hasBounds =
     typeof range.min === "number" && typeof range.max === "number"
+
+  const priceCurrency = indexedCurrency(currencyCode)
 
   return (
     <RefinementSection title="Price" isVisible={canRefine && hasBounds}>
@@ -78,8 +81,8 @@ export const PriceRangeRefinement = ({
 
         {hasBounds && (
           <p className="mt-2 text-xs text-neutral-500">
-            {formatPrice({ amount: range.min!, currency_code: currencyCode })} –{" "}
-            {formatPrice({ amount: range.max!, currency_code: currencyCode })}
+            {formatPrice({ amount: range.min!, currency_code: priceCurrency })} –{" "}
+            {formatPrice({ amount: range.max!, currency_code: priceCurrency })}
           </p>
         )}
 

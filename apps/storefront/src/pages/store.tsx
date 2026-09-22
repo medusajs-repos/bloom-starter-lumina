@@ -11,7 +11,6 @@ import {
   HITS_PER_PAGE,
   MAX_VALUES_PER_FACET,
   SEARCH_FACETS,
-  SEARCH_PRICE_CURRENCY_CODE,
 } from "@/lib/search-facets"
 import { useLoaderData } from "@tanstack/react-router"
 import type { SearchClient } from "instantsearch.js"
@@ -36,7 +35,7 @@ const StoreSearch = ({ countryCode, regionCurrencyCode }: StoreSearchProps) => {
   return (
     <>
       <div className="flex items-center justify-end gap-6 border-b border-neutral-200 py-6">
-        <SortBySelect />
+        <SortBySelect currencyCode={regionCurrencyCode} />
         <ResultCount />
       </div>
 
@@ -51,10 +50,8 @@ const StoreSearch = ({ countryCode, regionCurrencyCode }: StoreSearchProps) => {
             title="Labels"
           />
           <OptionValuesRefinement />
-          <SaleToggle />
-          <PriceRangeRefinement
-            currencyCode={SEARCH_PRICE_CURRENCY_CODE}
-          />
+          <SaleToggle currencyCode={regionCurrencyCode} />
+          <PriceRangeRefinement currencyCode={regionCurrencyCode} />
         </aside>
 
         <div className="min-w-0 flex-1">
